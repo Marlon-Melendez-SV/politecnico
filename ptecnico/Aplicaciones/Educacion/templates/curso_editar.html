@@ -1,0 +1,74 @@
+{% extends "plantilla.html" %}
+{% load static  %}
+
+{% block titulo  %}
+   <title>Instituto Politecnico</title>
+{% endblock titulo %}
+
+
+{% block contenido  %}
+   <div class="container">
+    <h1 class="mt-4 text-center">Editar Curso</h1>
+   </div>
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" 
+         aria-hidden="true" 
+         data-bs-backdrop="static">   <!-- Esta propiedad "data-bs-backdrop" se agrego para evitar que cuando se de un clic fuera de la ventana modal, esta se cierre y solo deje el rótulo "Editar Curso" -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Curso </h1>
+           
+          </div>
+          <div class="modal-body">
+             <form action="{%  url 'procesar_editar_curso' %}" method="post" id="curso_editar">
+              {% csrf_token %}
+    
+            <input type="text" value="{{curso.id_cur}}" hidden  name='id_cur' id='id_cur'>
+
+            <div class="nb-4"> 
+              <label for="" class="form-label">Carrera  </label>
+              <select name="fk_id_car" id="fk_id_car" class="form-control">
+                  <option value=""> ---- Seleccione una Carrera -- </option>
+                  {%  for carrera in carreras  %}
+                       <option value="{{carrera.id_car}}"> {{ carrera.nombre_car|truncatechars:90 }} </option>                   
+                  {%  endfor %}
+              </select>
+            </div>    
+  
+            <div class="nb-4"> 
+              <label for="" class="form-label">Nivel</label>
+              <input type="text" placeholder="Primero" id="nivel_cur" name="nivel_cur" value="{{curso.nivel_cur}}"
+                 class="form-control" required>
+            </div> 
+  
+            <div class="nb-4"> 
+              <label for="" class="form-label">Aula</label>
+              <input type="number" placeholder="2" id="aula_cur" name="aula_cur" value="{{curso.aula_cur}}"
+                 class="form-control" min="1" max="100" required>
+            </div> 
+              
+              <div class="modal-footer">
+                <a href="{%  url 'cursos'  %}" type="button" class="btn btn-secondary"> Cancelar </a>
+                
+                <button type="submit" class="btn btn-primary">Actualizar Curso</button>
+              </div>
+           
+             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<script languaje="javascript">
+   const mi_modal=document.getElementById('exampleModal');
+   document.addEventListener("DOMContentLoaded", () => {
+      const mymodal=new bootstrap.Modal(mi_modal);
+      mymodal.show();
+   } );
+
+   document.getElementById("fk_id_car").value="{{ curso.fk_id_car_id }}";
+</script>
+
+{% endblock contenido  %}

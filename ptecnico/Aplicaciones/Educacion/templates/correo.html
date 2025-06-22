@@ -1,0 +1,54 @@
+{% extends 'plantilla.html' %}
+
+{% load static %}
+
+{% block titulo  %}
+   <title> Instituto Politecnico </title>
+{% endblock titulo %}
+
+
+{% block contenido %}
+
+<div class="container">
+    <center><h3>Enviar Correo</h3></center><br>
+
+    <form action="{% url 'enviar_correo_dos' %} " method="post" id="form-correo" enctype="multipart/form-data">
+        {%  csrf_token  %}
+        <div class="row">
+            <div class="col">
+                <label for="" class="form-label">Destinatario</label>
+                <input type="email" name="destinatario" id="destinatario" 
+                    class="form-control" required >              
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="" class="form-label">Asunto</label>
+                <input type="texto" name="asunto" id="asunto" 
+                    class="form-control" required >              
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <div class="col">
+                <label for="" class="form-label">Mensaje</label>
+                <textarea name="mensaje" id="mensaje" rows="5" class="form-control" required>
+                </textarea>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <div class="col">
+                <label for="form-label">Anexar Archivo</label>
+                <input type="file" name="anexa_archivo" id="anexa_archivo" accept=".pdf, .txt, .doc, .docx, .png, .jpeg">
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <input type="submit" value="Enviar" class="btn btn-primary w-100">
+        </div>
+
+    </form>
+</div>
+
+{% endblock contenido %}

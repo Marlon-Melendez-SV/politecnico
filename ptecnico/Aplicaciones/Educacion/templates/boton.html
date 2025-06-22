@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTMX Básico --  Proyecto aparte de app Politecnico</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <!-- Botón que carga un mensaje desde el servidor -->
+    <button hx-get="/mensaje/" hx-target="#contenido">
+        Cargar Mensaje
+    </button>
+    
+    <!-- Aquí aparecerá la respuesta -->
+    <div id="contenido">
+        {% comment %} El mensaje se insertará aquí {% endcomment %}
+    </div>
+</body>
+</html>

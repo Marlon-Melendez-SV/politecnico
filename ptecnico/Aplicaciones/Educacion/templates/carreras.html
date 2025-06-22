@@ -1,0 +1,137 @@
+{%  extends 'plantilla.html'  %}
+{%  load static  %}
+
+{% block titulo %} 
+  <title>Politecnico Carreras</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock titulo %}
+
+{% block contenido %}
+
+   <!-- la siguiente "containier" es una clase de BootStrap  -->
+   <center><h1>Carreras </h1></center>
+
+<!-- Codigo BootStrap  --- Button trigger modal -->
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+<button type="button" class="btn btn-primary nb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Agregar Carrera
+</button> <br><br>
+
+<!-- Modal con codigo BootStrap -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Carrera</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          {# en el Form se tuvo que agregar esto: enctype="multipart/form-data   porq se subiran imagenes y ya NO solo es Texto #}
+         <form action="{%  url 'crear_carrera' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="nb-4"> 
+            <label for="" class="form-label">Nombre</label>
+            <input type="text" placeholder="Ej: Sistemas de Informacion" id="nombre_car" name="nombre_car" 
+               class="form-control" required>
+          </div>    
+
+          <div class="nb-4"> 
+            <label for="" class="form-label">Fecha de Creación</label>
+            <input type="date"  id="fechacreacion_car" name="fechacreacion_car" 
+               class="form-control" required>
+          </div> 
+
+          <div class="nb-4"> 
+            <label for="" class="form-label">Telefono</label>
+            <input type="text" placeholder="Ej: 2323-2323" id="telefono_car" name="telefono_car" 
+               class="form-control" required>
+          </div> 
+
+          <div class="nb-4">
+            <label for="" class="form-label">Logo</label>
+            <input type="file" class="form-control" required name="logo_car" id="logo_car" accept="image/*">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Carrera</button>
+          </div>
+    
+
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+   {% if carreras_db %}
+     <div class="container">
+       <table class="table table-hover table-striped text-center"  id="tablacarreras" width="100%">
+         <thead class="table-primary">
+            <tr> 
+                <th>Logo</th>
+                <th width="70%"> Nombre </th>
+                <th> Fecha Creacion </th>
+                <th> Telefono </th>
+                <th width="16%"> Acciones </th>
+            </tr>
+         </thead>
+         <tbody>
+            {%  for carrera in carreras_db  %}
+               
+               <tr>
+                   {# Comentario Jinja: Este  "if" es para que No se genere Error por el Null que trae el Logo #}
+                   {% if carrera.logo_car %}
+                       <td> <img  src="{{ carrera.logo_car.url }}"  alt="" width="40">  </td>  
+                   {% else %}
+                       <td> -- </td>
+                   {% endif %}    
+                  <td>{{ carrera.nombre_car }}</td>
+                  <td>{{ carrera.fechacreacion_car|date:"d/M/Y" }}</td>  <!-- con ese pipe se le esta dando formato de fecha d/M/Y -->
+                  <td>{{ carrera.telefono_car }}</td>
+                  
+                  <td>
+                    <a href="{% url 'editar_carrera'  carrera.id_car %}" target="_self" class="btn badge bg-info">Editar</a>
+
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{%  url 'eliminar_carrera'  carrera.id_car  %}" target="_self" class="btn badge bg-danger" 
+                    onclick="confirmarEliminacion(event, '{{ carrera.nombre_car }}', this.href)" > Eliminar </a>
+                  </td>
+
+               </tr>
+            {%  endfor %}
+         </tbody>
+       </table>
+     </div>
+   {%  else  %}
+      <div class="alert alert-warning  mt-4  text-center">
+         No hay registros de Carreras
+      </div>
+   {%  endif  %}
+
+
+    <script>
+      function confirmarEliminacion(event, nombreCarrera, urlEliminar) {
+          event.preventDefault(); // Evita que se ejecute el href inmediatamente
+          Swal.fire({
+              title: '¿Estás seguro?',
+              html: `Vas a eliminar la carrera: <b>${nombreCarrera}</b> <br> <img src="/static/img/advertencia.png" width="100">`,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Sí, eliminar',
+              cancelButtonText: 'Cancelar'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = urlEliminar; // Redirige para eliminar
+              }
+          });
+      }
+  </script>
+
+<script src="{%  static 'js/tabla.js' %}"> </script>
+
+{% endblock contenido %}

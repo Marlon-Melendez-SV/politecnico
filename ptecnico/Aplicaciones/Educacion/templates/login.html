@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Politecnico</title>
+
+<style>
+/* Estilos generales para los <p> generados */
+form p {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* Estilos para los inputs */
+form input {
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Estilo para campos específicos por nombre */
+input[name="username"] {
+  background-color: #f0f8ff;
+}
+
+input[name="password"] {
+  background-color: #fff0f0;
+}
+
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+}
+</style>
+
+</head>
+<body>
+    <br><br>
+    <center>  <h1>INSTITUTO POLITECNICO</h1>  <br>
+    <form  method="post">
+        {% csrf_token  %}
+        {{  form.as_p  }}
+
+        <br><button type="submit" style="font-size: 18px;">Iniciar Sesion</button>
+    </form>
+    </center>
+</body>
+</html>

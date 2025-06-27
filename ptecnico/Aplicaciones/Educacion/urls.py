@@ -27,6 +27,8 @@ from Aplicaciones.Educacion.views.correo_views import (
     enviar_correo_dos
 )
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns=[
     path('',inicio), 
     ### URLs para Carreras
@@ -49,7 +51,14 @@ urlpatterns=[
    path('enviar_correo/', enviar_correo, name='enviar_correo'),
    path('enviar_correo_dos/', enviar_correo_dos, name='enviar_correo_dos'),
 
-    ### para HTMX
-     path('htmx1/',htmx1),
+   ## URL para authentication
+   path('login/', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
+   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+   ### para HTMX
+   path('htmx1/',htmx1),
 
 ]
+
+
+handler404 = 'ptecnico.Aplicaciones.Educacion.views.pagina_no_encontrada'

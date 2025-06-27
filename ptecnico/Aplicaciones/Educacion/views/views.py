@@ -4,7 +4,12 @@ from Aplicaciones.Educacion.models import Carrera
 from django.contrib import messages
 from django.db.models import ProtectedError
 
+## Se importara la libreria auth.decorator "decoradores" para proteger las paginas y que no sean accesadas  
+##   sin haberse logueado primero
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="/login/")
 def inicio(request):
     return  render(request,'index.html')
 
@@ -66,6 +71,10 @@ def procesar_editar_carrera(request):
           messages.success(request,"Carrera actualizada correctamente.")
           return redirect('/carreras')
  
+
+def pagina_no_encontrada(request, exception):
+    return render(request, '404.html', status=404)
+
 
         
 ###### Codigo para trabajar con ejemplo HTMX

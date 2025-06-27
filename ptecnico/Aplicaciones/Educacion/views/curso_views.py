@@ -2,6 +2,12 @@ from django.shortcuts import render,HttpResponse, redirect
 from Aplicaciones.Educacion.models import Curso, Carrera 
 from django.contrib import messages
 
+## Se importara la libreria auth.decorator "decoradores" para proteger las paginas y que no sean accesadas  
+##   sin haberse logueado primero
+from django.contrib.auth.decorators import login_required
+@login_required(login_url="/login/")
+
+
 def cursos(request):
     cursosDbb=Curso.objects.all()
     carrerasDbb=Carrera.objects.all()

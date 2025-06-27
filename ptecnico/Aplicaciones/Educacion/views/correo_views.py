@@ -5,9 +5,13 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url="/login/")
 def correo(request):
     return render(request,'correo.html')
 
+@login_required(login_url="/login/")
 def enviar_correo(request):
     if request.method=='POST':
         destinario=request.POST.get('destinatario')
@@ -23,6 +27,7 @@ def enviar_correo(request):
     
     return redirect('/correo')
 
+@login_required(login_url="/login/")
 def enviar_correo_dos(request):
     if request.method=='POST':
         destinario=request.POST.get('destinatario')

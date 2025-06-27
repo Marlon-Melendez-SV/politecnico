@@ -3,6 +3,8 @@
 venv/
 .venv/
 env/
+.env
+.env/
 
 # Archivos de desarrollo/local
 *.sqlite3
@@ -27,10 +29,10 @@ settings/local.py
 *.swp
 *.swo
 
-# Archivos de instalación
+# Archivos de instalaciï¿½n
 pip-delete-this-directory.txt
 
-# Archivos estáticos y medios (si se generan automáticamente)
+# Archivos estï¿½ticos y medios (si se generan automï¿½ticamente)
 staticfiles/
 media/
 
